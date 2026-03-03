@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WE Winner 🏆</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      text-align: center;
+    }
+
+    header {
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      background: #111827;
+    }
+
+    .card {
+      background: #1f2937;
+      margin: 20px;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .android {
+      background: #16a34a;
+      color: white;
+    }
+
+    .iphone {
+      background: #2563eb;
+      color: white;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .count {
+      font-size: 22px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+
+<header>WE Winner 🏆 Live Voting</header>
+
+<div class="card">
+  <h2>Android vs iPhone</h2>
+
+  <div class="count">Android Votes: <span id="androidCount">0</span></div>
+  <button class="android" onclick="voteAndroid()">Vote Android</button>
+
+  <div class="count">iPhone Votes: <span id="iphoneCount">0</span></div>
+  <button class="iphone" onclick="voteIphone()">Vote iPhone</button>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBXt1ulK89p469W4BdTUYya0Z4mlF9_o0U",
+    authDomain: "we-winner.firebaseapp.com",
+    databaseURL: "https://we-winner-default-rtdb.firebaseio.com",
+    projectId: "we-winner",
+    storageBucket: "we-winner.appspot.com",
+    messagingSenderId: "929426539668",
+    appId: "1:929426539668:web:bea3ad9fb8f269d10ee081"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  const contestRef = ref(db, 'contests/android_vs_iphone');
+
+  onValue(contestRef, (snapshot) => {
+    const data = snapshot.val();
+    if (data) {
+      document.getElementById("androidCount").innerText = data.android || 0;
+      document.getElementById("iphoneCount").innerText = data.iphone || 0;
+    }
+  });
+
+  window.voteAndroid = function() {
+    onValue(contestRef, (snapshot) => {
+      const data = snapshot.val();
+      update(contestRef, {
+        android: (data.android || 0) + 1
+      });
+    }, { onlyOnce: true });
+  }
+
+  window.voteIphone = function() {
+    onValue(contestRef, (snapshot) => {
+      const data = snapshot.val();
+      update(contestRef, {
+        iphone: (data.iphone || 0) + 1
+      });
+    }, { onlyOnce: true });
+  }
+</script>
+
+</body>
+</html>
