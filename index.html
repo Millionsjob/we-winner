@@ -123,22 +123,46 @@ console.log(error)
     }
   });
 
-  window.voteAndroid = function() {
-  get(contestRef).then((snapshot) => {
-    const data = snapshot.val();
-    update(contestRef,{
-      android: (data.android || 0) + 1
-    });
-  });
+  window.voteAndroid = function(){
+
+const user = auth.currentUser;
+
+if(!user){
+alert("Login first");
+return;
 }
 
-  window.voteIphone = function() {
-  get(contestRef).then((snapshot) => {
-    const data = snapshot.val();
-    update(contestRef,{
-      iphone: (data.iphone || 0) + 1
-    });
-  });
+get(contestRef).then((snapshot)=>{
+
+const data = snapshot.val();
+
+update(contestRef,{
+android:(data.android || 0)+1
+});
+
+});
+
+}
+
+  window.voteIphone = function(){
+
+const user = auth.currentUser;
+
+if(!user){
+alert("Login first");
+return;
+}
+
+get(contestRef).then((snapshot)=>{
+
+const data = snapshot.val();
+
+update(contestRef,{
+iphone:(data.iphone || 0)+1
+});
+
+});
+
 }
 </script>
 
