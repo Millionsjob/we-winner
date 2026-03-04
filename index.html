@@ -73,7 +73,7 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  import { getDatabase, ref, onValue, update,get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBXt1ulK89p469W4BdTUYya0Z4mlF9_o0U",
@@ -99,22 +99,22 @@
   });
 
   window.voteAndroid = function() {
-    onValue(contestRef, (snapshot) => {
-      const data = snapshot.val();
-      update(contestRef, {
-        android: (data.android || 0) + 1
-      });
-    }, { onlyOnce: true });
-  }
+  get(contestRef).then((snapshot) => {
+    const data = snapshot.val();
+    update(contestRef,{
+      android: (data.android || 0) + 1
+    });
+  });
+}
 
   window.voteIphone = function() {
-    onValue(contestRef, (snapshot) => {
-      const data = snapshot.val();
-      update(contestRef, {
-        iphone: (data.iphone || 0) + 1
-      });
-    }, { onlyOnce: true });
-  }
+  get(contestRef).then((snapshot) => {
+    const data = snapshot.val();
+    update(contestRef,{
+      iphone: (data.iphone || 0) + 1
+    });
+  });
+}
 </script>
 
 </body>
