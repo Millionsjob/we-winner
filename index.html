@@ -76,7 +76,7 @@
 </div>
 
 <script type="module">
-  import { getAuth, signInWithPopup, GoogleAuthProvider }
+  import { getAuth, signInWithPopup, GoogleAuthProvider,onAuthStateChanged }
 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getDatabase, ref, onValue, update,get,set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
@@ -94,6 +94,12 @@ from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
   const auth = getAuth();
+  onAuthStateChanged(auth, (user) => {
+  if (user) {
+    document.getElementById("userInfo").innerText =
+    "Welcome " + user.displayName;
+  }
+});
 const provider = new GoogleAuthProvider();
 
 window.loginGoogle = function(){
