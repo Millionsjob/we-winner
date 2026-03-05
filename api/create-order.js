@@ -19,7 +19,7 @@ order_amount: 10,
 order_currency: "INR",
 customer_details: {
 customer_id: "user_" + Date.now(),
-customer_email: "test@test.com",
+customer_email: "demo@cashfree.com",
 customer_phone: "9999999999"
 },
 order_meta: {
