@@ -1,242 +1,113 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>WE Winner 🏆</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
-      text-align: center;
-    }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WE Winner Live Voting</title>
 
-    header {
-      padding: 20px;
-      font-size: 24px;
-      font-weight: bold;
-      background: #111827;
-    }
+<style>
+body{
+font-family:Arial;
+background:#0c1b34;
+color:white;
+text-align:center;
+padding:20px;
+}
 
-    .card {
-      background: #1f2937;
-      margin: 20px;
-      padding: 20px;
-      border-radius: 12px;
-    }
+button{
+padding:12px 20px;
+border:none;
+border-radius:10px;
+margin:10px;
+font-size:16px;
+cursor:pointer;
+}
 
-    button {
-      padding: 10px 20px;
-      margin: 10px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+.login{background:#e0e0e0;color:black}
+.money{background:#e0e0e0;color:black}
 
-    .android {
-      background: #16a34a;
-      color: white;
-    }
+.android{background:#1fa64a;color:white}
+.iphone{background:#2d6cdf;color:white}
 
-    .iphone {
-      background: #2563eb;
-      color: white;
-    }
-
-    h2 {
-      margin-top: 0;
-    }
-
-    .count {
-      font-size: 22px;
-      margin: 10px 0;
-    }
-  </style>
+.card{
+background:#1e2b42;
+padding:25px;
+border-radius:15px;
+margin-top:20px;
+}
+</style>
 </head>
+
 <body>
 
-<header>WE Winner 🏆 Live Voting</header>
-  <div style="margin:20px;">
-<button onclick="loginGoogle()">Login with Google</button>
-<p id="userInfo"></p>
-    <p id="walletBalance"></p>
-    <button onclick="startPayment()">Add Money ₹</button>
-  </div>
+<h1>WE Winner 🏆 Live Voting</h1>
+
+<button class="login" onclick="login()">Login with Google</button>
+<br>
+<button class="money" onclick="addMoney()">Add Money ₹</button>
 
 <div class="card">
-  <h2>Android vs iPhone</h2>
 
-  <div class="count">Android Votes: <span id="androidCount">0</span></div>
-  <button class="android" onclick="voteAndroid()">Vote Android</button>
+<h2>Android vs iPhone</h2>
 
-  <div class="count">iPhone Votes: <span id="iphoneCount">0</span></div>
-  <button class="iphone" onclick="voteIphone()">Vote iPhone</button>
+<p>Android Votes: <span id="androidCount">0</span></p>
+<button class="android" onclick="voteAndroid()">Vote Android</button>
+
+<p>iPhone Votes: <span id="iphoneCount">0</span></p>
+<button class="iphone" onclick="voteIphone()">Vote iPhone</button>
+
 </div>
 
+
 <script type="module">
-  import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getDatabase, ref, onValue, update,get,set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBXt1ulK89p469W4BdTUYya0Z4mlF9_o0U",
-    authDomain: "we-winner.firebaseapp.com",
-    databaseURL: "https://we-winner-default-rtdb.firebaseio.com",
-    projectId: "we-winner",
-    storageBucket: "we-winner.appspot.com",
-    messagingSenderId: "929426539668",
-    appId: "1:929426539668:web:bea3ad9fb8f269d10ee081"
-  };
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
-  const auth = getAuth();
-  onAuthStateChanged(auth, (user) => {
+import {
+getDatabase,
+ref,
+get,
+update,
+onValue
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-if (user) {
+import {
+getAuth,
+GoogleAuthProvider,
+signInWithPopup
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-document.getElementById("userInfo").innerText =
-"Welcome " + user.displayName;
+const firebaseConfig = {
+apiKey: "YOUR_API_KEY",
+authDomain: "YOUR_PROJECT.firebaseapp.com",
+databaseURL: "YOUR_DATABASE_URL",
+projectId: "YOUR_PROJECT_ID",
+storageBucket: "YOUR_PROJECT.appspot.com",
+messagingSenderId: "XXXX",
+appId: "XXXX"
+};
 
-const walletRef = ref(db,"users/"+user.uid+"/balance");
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const auth = getAuth(app);
 
-onValue(walletRef,(snapshot)=>{
+const contestRef = ref(db,"contest");
 
-const balance = snapshot.val() || 0;
 
-document.getElementById("walletBalance").innerText =
-"Wallet Balance: ₹" + balance;
+window.login = function(){
 
-});
-
-}
-
-});
 const provider = new GoogleAuthProvider();
 
-window.loginGoogle = function(){
-
-signInWithPopup(auth, provider)
-.then((result)=>{
-
-const user = result.user;
-const userRef = ref(db, "users/" + user.uid);
-
-get(userRef).then((snapshot)=>{
-
-if(!snapshot.exists()){
-
-set(userRef,{
-name: user.displayName,
-balance: 0
+signInWithPopup(auth,provider)
+.then(()=>{
+alert("Login success");
 });
 
 }
 
-});
 
-
-
-})
-.catch((error)=>{
-console.log(error)
-});
-
-}
-
-  const contestRef = ref(db, 'contests/android_vs_iphone');
-
-  onValue(contestRef, (snapshot) => {
-    const data = snapshot.val();
-    if (data) {
-      document.getElementById("androidCount").innerText = data.android || 0;
-      document.getElementById("iphoneCount").innerText = data.iphone || 0;
-    }
-  });
-
-  window.voteAndroid = function(){
-
-const user = auth.currentUser;
-
-if(!user){
-alert("Login first");
-return;
-}
-
-const walletRef = ref(db,"users/"+user.uid+"/balance");
-
-get(walletRef).then((snapshot)=>{
-
-let balance = snapshot.val() || 0;
-
-if(balance < 10){
-alert("Not enough balance");
-return;
-}
-
-update(ref(db,"users/"+user.uid),{
-balance: balance - 10
-});
-
-get(contestRef).then((snap)=>{
-
-const data = snap.val();
-
-update(contestRef,{
-android:(data.android || 0)+1
-});
-});
-  window.voteIphone = function(){
-    
-const user = auth.currentUser;
-
-if(!user){
-alert("Login first");
-return;
-}
-
-const walletRef = ref(db,"users/"+user.uid+"/balance");
-
-get(walletRef).then((snapshot)=>{
-
-let balance = snapshot.val() || 0;
-
-if(balance < 10){
-alert("Not enough balance");
-return;
-}
-
-update(ref(db,"users/"+user.uid),{
-balance: balance - 10
-});
-
-get(contestRef).then((snap)=>{
-
-const data = snap.val();
-
-update(contestRef,{
-iphone:(data.iphone || 0)+1
-});
-
-});
-};
-  window.startPayment = async function(){
+window.addMoney = function(){
 
 let amount = prompt("Enter amount");
-
-if(!amount) return;
-
-let orderId = "order_" + Date.now();
-
-alert("Order created: " + orderId);
-
-};
-  window.addMoney = function(){
-
-let amount = prompt("Enter amount to add");
 
 if(!amount) return;
 
@@ -257,8 +128,102 @@ update(ref(db,"users/"+user.uid),{
 balance: current + Number(amount)
 });
 
+alert("Money added");
+
 });
-    };
+
+}
+
+
+window.voteAndroid = function(){
+
+const user = auth.currentUser;
+
+if(!user){
+alert("Login first");
+return;
+}
+
+const walletRef = ref(db,"users/"+user.uid+"/balance");
+
+get(walletRef).then((snapshot)=>{
+
+let balance = snapshot.val() || 0;
+
+if(balance < 10){
+alert("Not enough balance");
+return;
+}
+
+update(ref(db,"users/"+user.uid),{
+balance: balance - 10
+});
+
+get(contestRef).then((snap)=>{
+
+const data = snap.val() || {};
+
+update(contestRef,{
+android:(data.android || 0)+1
+});
+
+});
+
+});
+
+}
+
+
+window.voteIphone = function(){
+
+const user = auth.currentUser;
+
+if(!user){
+alert("Login first");
+return;
+}
+
+const walletRef = ref(db,"users/"+user.uid+"/balance");
+
+get(walletRef).then((snapshot)=>{
+
+let balance = snapshot.val() || 0;
+
+if(balance < 10){
+alert("Not enough balance");
+return;
+}
+
+update(ref(db,"users/"+user.uid),{
+balance: balance - 10
+});
+
+get(contestRef).then((snap)=>{
+
+const data = snap.val() || {};
+
+update(contestRef,{
+iphone:(data.iphone || 0)+1
+});
+
+});
+
+});
+
+}
+
+
+onValue(contestRef,(snapshot)=>{
+
+const data = snapshot.val() || {};
+
+document.getElementById("androidCount").innerText = data.android || 0;
+
+document.getElementById("iphoneCount").innerText = data.iphone || 0;
+
+});
+
+
 </script>
 
 </body>
