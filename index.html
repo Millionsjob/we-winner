@@ -99,7 +99,7 @@ appId: "1:929426539668:web:bea3ad9fb8f269d10ee081"
 
 
 const app = initializeApp(firebaseConfig);
-  async function startPayment(){
+  window.startPayment = async function(){
 
 const res = await fetch("/api/create-order");
 const data = await res.json();
