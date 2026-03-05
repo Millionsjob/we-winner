@@ -204,16 +204,32 @@ alert("Login first");
 return;
 }
 
-get(contestRef).then((snapshot)=>{
+207 const walletRef = ref(db,"users/"+user.uid+"/balance");
 
-const data = snapshot.val();
+208 get(walletRef).then((snapshot)=>{
 
-update(contestRef,{
-iphone:(data.iphone || 0)+1
-});
+209 let balance = snapshot.val() || 0;
 
-});
+210 if(balance < 10){
+211 alert("Not enough balance");
+212 return;
+213 }
 
+214 update(ref(db,"users/"+user.uid),{
+215 balance: balance - 10
+216 });
+
+217 get(contestRef).then((snap)=>{
+
+218 const data = snap.val();
+
+219 update(contestRef,{
+220 iphone:(data.iphone || 0)+1
+221 });
+
+222 });
+
+223 });
 };
   window.startPayment = async function(){
 
