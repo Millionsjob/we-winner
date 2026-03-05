@@ -202,32 +202,31 @@ alert("Login first");
 return;
 }
 
-207 const walletRef = ref(db,"users/"+user.uid+"/balance");
+const walletRef = ref(db,"users/"+user.uid+"/balance");
 
-208 get(walletRef).then((snapshot)=>{
+get(walletRef).then((snapshot)=>{
 
-209 let balance = snapshot.val() || 0;
+let balance = snapshot.val() || 0;
 
-210 if(balance < 10){
-211 alert("Not enough balance");
-212 return;
-213 }
+if(balance < 10){
+alert("Not enough balance");
+return;
+}
 
-214 update(ref(db,"users/"+user.uid),{
-215 balance: balance - 10
-216 });
+update(ref(db,"users/"+user.uid),{
+balance: balance - 10
+});
 
-217 get(contestRef).then((snap)=>{
+get(contestRef).then((snap)=>{
 
-218 const data = snap.val();
+const data = snap.val();
 
-219 update(contestRef,{
-220 iphone:(data.iphone || 0)+1
-221 });
+update(contestRef,{
+iphone:(data.iphone || 0)+1
+});
 
-222 });
+});
 
-223 });
 };
   window.startPayment = async function(){
 
