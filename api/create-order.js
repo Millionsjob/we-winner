@@ -5,7 +5,7 @@ const CLIENT_SECRET = process.env.CASHFREE_CLIENT_SECRET;
 
 const orderId = "order_" + Date.now();
 
-const response = await fetch("https://sandbox.cashfree.com/pg/orders", {
+const response = await fetch("https://api.cashfree.com/pg/orders", {
 method: "POST",
 headers: {
 "x-client-id": CLIENT_ID,
@@ -21,9 +21,6 @@ customer_details: {
 customer_id: "user_" + Date.now(),
 customer_email: "demo@cashfree.com",
 customer_phone: "9999999999"
-},
-order_meta: {
-return_url: "https://example.com"
 }
 })
 });
