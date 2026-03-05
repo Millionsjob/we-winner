@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Payment Page</title>
+
+<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+
+</head>
+
+<body>
+
+<h2>Pay ₹10</h2>
+
+<button id="payBtn">Pay Now</button>
+
+<script>
+
+document.getElementById("payBtn").addEventListener("click", async function(){
+
+const res = await fetch("/api/create-order");
+const data = await res.json();
+
+const cashfree = Cashfree({
+mode: "production"
+});
+
+cashfree.checkout({
+paymentSessionId: data.payment_session_id,
+redirectTarget: "_self"
+});
+
+});
+
+</script>
+
+</body>
+</html>
