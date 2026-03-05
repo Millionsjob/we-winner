@@ -63,7 +63,7 @@
 <button onclick="loginGoogle()">Login with Google</button>
 <p id="userInfo"></p>
     <p id="walletBalance"></p>
-    <button onclick="addMoney()">Add Money ₹</button>
+    <button onclick="startPayment()">Add Money ₹</button>
   </div>
 
 <div class="card">
@@ -199,6 +199,15 @@ iphone:(data.iphone || 0)+1
 });
 
 };
+  async function startPayment(){
+
+let amount = prompt("Enter amount");
+
+if(!amount) return;
+
+alert("Payment amount: ₹" + amount);
+
+  }
   window.addMoney = function(){
 
 let amount = prompt("Enter amount to add");
@@ -225,6 +234,11 @@ balance: current + Number(amount)
 });
 
   };
+  async function startPayment(){
+
+alert("Payment system coming next step");
+
+  }
 </script>
 
 </body>
