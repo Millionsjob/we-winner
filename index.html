@@ -205,9 +205,11 @@ let amount = prompt("Enter amount");
 
 if(!amount) return;
 
-alert("Payment amount: ₹" + amount);
+let orderId = "order_" + Date.now();
 
-  }
+alert("Order created: " + orderId);
+
+}
   window.addMoney = function(){
 
 let amount = prompt("Enter amount to add");
