@@ -1,10 +1,4 @@
-import express from "express";
-import fetch from "node-fetch";
-
-const app = express();
-app.use(express.json());
-
-app.post("/api/create-order", async (req, res) => {
+export default async function handler(req, res) {
 
 const CLIENT_ID = process.env.CASHFREE_CLIENT_ID;
 const CLIENT_SECRET = process.env.CASHFREE_CLIENT_SECRET;
@@ -31,8 +25,7 @@ customer_phone: "9999999999"
 });
 
 const data = await response.json();
-res.json(data);
 
-});
+res.status(200).json(data);
 
-app.listen(3000, () => console.log("Server running"));
+}
