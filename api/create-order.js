@@ -18,7 +18,7 @@ order_id: orderId,
 order_amount: 10,
 order_currency: "INR",
 customer_details: {
-customer_id: "user_001",
+customer_id: "user_" + Date.now(),
 customer_email: "test@test.com",
 customer_phone: "9999999999"
 }
@@ -27,6 +27,8 @@ customer_phone: "9999999999"
 
 const data = await response.json();
 
-res.status(200).json(data);
+res.status(200).json({
+payment_session_id: data.payment_session_id
+});
 
 }
