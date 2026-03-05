@@ -199,6 +199,32 @@ iphone:(data.iphone || 0)+1
 });
 
 };
+  window.addMoney = function(){
+
+let amount = prompt("Enter amount to add");
+
+if(!amount) return;
+
+const user = auth.currentUser;
+
+if(!user){
+alert("Login first");
+return;
+}
+
+const walletRef = ref(db,"users/"+user.uid+"/balance");
+
+get(walletRef).then((snapshot)=>{
+
+let current = snapshot.val() || 0;
+
+update(ref(db,"users/"+user.uid),{
+balance: current + Number(amount)
+});
+
+});
+
+  };
 </script>
 
 </body>
