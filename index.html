@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>WE Winner</title>
-
+<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 <style>
 
 body{
@@ -45,7 +45,7 @@ margin-top:20px;
 <button class="login" onclick="login()">Login with Google</button>
 <br>
 
-<button class="money" onclick="addMoney()">Add Money ₹</button>
+<button class="money" onclick="startPayment()">Add Money ₹</button>
 
 <div class="card">
 
@@ -99,6 +99,23 @@ appId: "1:929426539668:web:bea3ad9fb8f269d10ee081"
 
 
 const app = initializeApp(firebaseConfig);
+  async function startPayment(){
+
+const res = await fetch("/api/create-order");
+const data = await res.json();
+
+const cashfree = Cashfree({
+mode: "sandbox"
+});
+
+cashfree.checkout({
+paymentSessionId: data.payment_session_id,
+redirectTarget: "_self"
+});
+
+}
+
+window.startPayment = startPayment;
 
 const db = getDatabase(app);
 
