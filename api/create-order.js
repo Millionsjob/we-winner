@@ -30,6 +30,10 @@ return_url: "https://example.com"
 
 const data = await response.json();
 
+if(!data.payment_session_id){
+return res.status(400).json(data);
+}
+
 res.status(200).json({
 payment_session_id: data.payment_session_id
 });
