@@ -64,6 +64,7 @@
 <button onclick="loginGoogle()">Login with Google</button>
 <p id="userInfo"></p>
     <p id="walletBalance"></p>
+    <button onclick="addMoney()">Add Money ₹</button>
   </div>
 
 <div class="card">
@@ -175,12 +176,13 @@ update(contestRef,{
 android:(data.android || 0)+1
 });
 
+
 });
 
 }
 
   window.voteIphone = function(){
-
+    
 const user = auth.currentUser;
 
 if(!user){
@@ -199,6 +201,15 @@ iphone:(data.iphone || 0)+1
 });
 
 }
+  function addMoney(){
+
+let amount = prompt("Enter amount to add");
+
+if(!amount) return;
+
+alert("You want to add ₹" + amount);
+
+  }
 </script>
 
 </body>
