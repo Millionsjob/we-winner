@@ -166,14 +166,30 @@ alert("Login first");
 return;
 }
 
-get(contestRef).then((snapshot)=>{
+const walletRef = ref(db,"users/"+user.uid+"/balance");
 
-const data = snapshot.val();
+get(walletRef).then((snapshot)=>{
+
+let balance = snapshot.val() || 0;
+
+if(balance < 10){
+alert("Not enough balance");
+return;
+}
+
+update(ref(db,"users/"+user.uid),{
+balance: balance - 10
+});
+
+get(contestRef).then((snap)=>{
+
+const data = snap.val();
 
 update(contestRef,{
 android:(data.android || 0)+1
 });
 
+});
 
 });
 
