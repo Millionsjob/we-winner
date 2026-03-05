@@ -104,7 +104,7 @@ const app = initializeApp(firebaseConfig);
 const res = await fetch("/api/create-order");
 const data = await res.json();
 
-const cashfree = Cashfree({
+const cashfree = new Cashfree({
 mode: "sandbox"
 });
 
