@@ -10,6 +10,7 @@ method: "POST",
 headers: {
 "x-client-id": CLIENT_ID,
 "x-client-secret": CLIENT_SECRET,
+"x-api-version": "2022-09-01",
 "Content-Type": "application/json"
 },
 body: JSON.stringify({
