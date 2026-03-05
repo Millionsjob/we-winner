@@ -21,6 +21,9 @@ customer_details: {
 customer_id: "user_" + Date.now(),
 customer_email: "test@test.com",
 customer_phone: "9999999999"
+},
+order_meta: {
+return_url: "https://example.com"
 }
 })
 });
